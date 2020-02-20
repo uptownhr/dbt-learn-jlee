@@ -1,5 +1,18 @@
 version: 2
 
+sources:
+  - name: stripe
+    database: raw
+    loaded_at_field: created
+    loader: WHO
+
+    freshness:
+      warn_after: {count: 12, period: hour}
+      error_after: {count: 24, period: hour}
+      
+    tables:
+      - name: payment
+
 models:
   - name: dim_customers
     description: One record per customer
@@ -11,6 +24,9 @@ models:
           - not_null
       - name: first_order_date
         description: NULL when a customer has not yet placed an order.
+      - name: lifetime_value
+        tests:
+          - not_null
   - name: stg_customers
     columns:
       - name: customer_id
@@ -51,6 +67,3 @@ models:
         tests:
           - not_null
           - unique
-      - name: lifetime_value
-        tests:
-          - not_null
