@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: customers
+  - name: dim_customers
     description: One record per customer
     columns:
       - name: customer_id
@@ -33,11 +33,24 @@ models:
           - relationships:
               to: ref('stg_customers')
               field: customer_id
-  - name: stg_payments
+  - name: stg_stripe_payments
     columns:
+       - name: id
+         tests:
+           - not_null
+           - unique
        - name: order_id
          tests:
            - not_null
            - relationships:
               to: ref('stg_orders')
               field: order_id
+  - name: fct_orders
+    columns:
+      - name: id
+        tests:
+          - not_null
+          - unique
+      - name: lifetime_value
+        tests:
+          - not_null
