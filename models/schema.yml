@@ -33,3 +33,11 @@ models:
           - relationships:
               to: ref('stg_customers')
               field: customer_id
+  - name: stg_payments
+    columns:
+       - name: order_id
+         tests:
+           - not_null
+           - relationships:
+              to: ref('stg_orders')
+              field: order_id
