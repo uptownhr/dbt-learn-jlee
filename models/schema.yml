@@ -62,6 +62,7 @@ models:
               to: ref('stg_orders')
               field: order_id
   - name: fct_orders
+    description: "{{ doc('fct_orders') }}"
     columns:
       - name: id
         tests:
